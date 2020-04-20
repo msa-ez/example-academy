@@ -52,7 +52,6 @@
 1. 성능
     1. 학생이 강의관리에서 확인할 수 있는 수강신청내용을 수강신청시스템(프론트엔드)에서 확인할 수 있어야 한다 CQRS
 
-=================================================================================편집중======================================
 
 # 체크포인트
 
@@ -114,17 +113,13 @@
 
 # 분석/설계
 
-
-## AS-IS 조직 (Horizontally-Aligned)
-  ![image](https://user-images.githubusercontent.com/487999/79684144-2a893200-826a-11ea-9a01-79927d3a0107.png)
-
 ## TO-BE 조직 (Vertically-Aligned)
-  ![image](https://user-images.githubusercontent.com/487999/79684159-3543c700-826a-11ea-8d5f-a3fc0c4cad87.png)
 
 
 ## Event Storming 결과
-* MSAEz 로 모델링한 이벤트스토밍 결과:  http://msaez.io/#/storming/nZJ2QhwVc4NlVJPbtTkZ8x9jclF2/every/a77281d704710b0c2e6a823b6e6d973a/-M5AV2z--su_i4BfQfeF
+* MSAEz 로 모델링한 이벤트스토밍 결과:  http://msaez.io/#/storming/RYTliHDEOOYT0NAZ6Xoodg4HP3H3/every/18a58ddb3072e7c25041a1c9361a9635/-M5LUZ65cww2eehQz7RL
 
+★★★★=====================================편집중======================================
 
 ### 이벤트 도출
 ![image](https://user-images.githubusercontent.com/487999/79683604-47bc0180-8266-11ea-9212-7e88c9bf9911.png)
