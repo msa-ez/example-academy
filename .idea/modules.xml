@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CourseRegistrationSystem/CourseRegistrationSystem.iml" filepath="$PROJECT_DIR$/CourseRegistrationSystem/CourseRegistrationSystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DashBoard/DashBoard.iml" filepath="$PROJECT_DIR$/DashBoard/DashBoard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LectureSystem/LectureSystem.iml" filepath="$PROJECT_DIR$/LectureSystem/LectureSystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PaymentSystem/PaymentSystem.iml" filepath="$PROJECT_DIR$/PaymentSystem/PaymentSystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/boot-camp-gateway.iml" filepath="$PROJECT_DIR$/gateway/boot-camp-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/skademy.iml" filepath="$PROJECT_DIR$/.idea/skademy.iml" />
+    </modules>
+  </component>
+</project>

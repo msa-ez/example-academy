@@ -1,0 +1,10 @@
+skademy\LectureSystemController.class
+skademy\CourseRegistrationCompleted.class
+skademy\LectureSystemRepository.class
+skademy\PolicyHandler.class
+skademy\OpenedCanceled.class
+skademy\Application.class
+skademy\LectureSystem.class
+skademy\AbstractEvent.class
+skademy\config\kafka\KafkaProcessor.class
+skademy\LectureOpened.class

@@ -8,22 +8,22 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: app
+        - id: CourseRegistrationSystem
           uri: http://localhost:8081
           predicates:
-            - Path=/주문/** /메뉴판/**/통합주문상태/**
-        - id: pay
+            - Path=/courseRegistrationSystems/** 
+        - id: LectureSystem
           uri: http://localhost:8082
           predicates:
-            - Path=/결제이력/** 
-        - id: store
+            - Path=/lectureSystems/** 
+        - id: PaymentSystem
           uri: http://localhost:8083
           predicates:
-            - Path=/주문관리/** /주문상세보기/**
-        - id: customer
+            - Path=/paymentSystems/** 
+        - id: DashBoard
           uri: http://localhost:8084
           predicates:
-            - Path= 
+            - Path= /courseRegistrationStatuses/**/lecturerStatuses/**
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -43,22 +43,22 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: app
-          uri: http://app:8080
+        - id: CourseRegistrationSystem
+          uri: http://CourseRegistrationSystem:8080
           predicates:
-            - Path=/주문/** /메뉴판/**/통합주문상태/**
-        - id: pay
-          uri: http://pay:8080
+            - Path=/courseRegistrationSystems/** 
+        - id: LectureSystem
+          uri: http://LectureSystem:8080
           predicates:
-            - Path=/결제이력/** 
-        - id: store
-          uri: http://store:8080
+            - Path=/lectureSystems/** 
+        - id: PaymentSystem
+          uri: http://PaymentSystem:8080
           predicates:
-            - Path=/주문관리/** /주문상세보기/**
-        - id: customer
-          uri: http://customer:8080
+            - Path=/paymentSystems/** 
+        - id: DashBoard
+          uri: http://DashBoard:8080
           predicates:
-            - Path= 
+            - Path= /courseRegistrationStatuses/**/lecturerStatuses/**
       globalcors:
         corsConfigurations:
           '[/**]':
