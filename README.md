@@ -2,7 +2,7 @@
 MSA / DDD / Event Storming example on food delivery service
 
 
-![image](https://user-images.githubusercontent.com/487999/79708354-29074a80-82fa-11ea-80df-0db3962fb453.png)
+![image](https://user-images.githubusercontent.com/48303857/79727114-d3956280-8326-11ea-8862-e01ca9a0f949.png)
 
 # 예제 - 음식배달
 
