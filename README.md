@@ -528,7 +528,8 @@ kubectl get deploy pay -w
 
 
 ## 이벤트 스토밍 
-    ![image](https://user-images.githubusercontent.com/487999/79685356-2b729180-8273-11ea-9361-a434065f2249.png)
+
+![image](https://user-images.githubusercontent.com/487999/79685356-2b729180-8273-11ea-9361-a434065f2249.png)
 
 
 ## 헥사고날 아키텍처 변화 
