@@ -494,7 +494,8 @@ http localhost:8080/orders     # 모든 주문의 상태가 "배송됨"으로 �
 ## CI/CD 설정
 
 
-각 구현체들은 각자의 source repository 에 구성되었고, 사용한 CI/CD 플랫폼은 GCP를 사용하였으며, pipeline build script 는 각 프로젝트 폴더 이하에 cloudbuild.yml 에 포함되었다.
+각 구현체들은 각자의 source repository 에 구성되었고, 사용한 CI/CD 플랫폼은 GCP를 사용하였으며, pipeline build script 는 각 프로젝트 폴더 이하에 azure-pipeline.yml 에 포함되었다.
+
 
 
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
@@ -580,7 +581,7 @@ kubectl get deploy pay -w
 
 - seige 로 배포작업 직전에 워크로드를 모니터링 함.
 ```
-siege -c100 -t120S -r10 --content-type "application/json" 'http://localhost:8081/orders POST {"item": "chicken"}'
+siege -c100 -t120S -r10 --content-type "application/json" 'http://52.231.118.204:8080/courseRegistrationSystems POST {"lectureId": 1}'
 
 ** SIEGE 4.0.5
 ** Preparing 100 concurrent users for battle.
