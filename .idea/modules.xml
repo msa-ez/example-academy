@@ -6,8 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/DashBoard/DashBoard.iml" filepath="$PROJECT_DIR$/DashBoard/DashBoard.iml" />
       <module fileurl="file://$PROJECT_DIR$/LectureSystem/LectureSystem.iml" filepath="$PROJECT_DIR$/LectureSystem/LectureSystem.iml" />
       <module fileurl="file://$PROJECT_DIR$/PaymentSystem/PaymentSystem.iml" filepath="$PROJECT_DIR$/PaymentSystem/PaymentSystem.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gateway/boot-camp-gateway.iml" filepath="$PROJECT_DIR$/gateway/boot-camp-gateway.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/skademy.iml" filepath="$PROJECT_DIR$/.idea/skademy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/gateway.iml" filepath="$PROJECT_DIR$/gateway/gateway.iml" />
     </modules>
   </component>
 </project>

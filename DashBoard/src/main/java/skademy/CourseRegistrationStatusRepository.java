@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface CourseRegistrationStatusRepository extends CrudRepository<CourseRegistrationStatus, Long> {
 
+    List<CourseRegistrationStatus> findByCourseStatus(String courseStatus);
 
+        void deleteByCourseId(Long courseId);
 }

@@ -4,15 +4,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="CourseRegistrationStatus_table")
-public class CourseRegistrationStatus {
+@Table(name="LectureStatus_table")
+public class LectureStatus {
 
         @Id
         @GeneratedValue(strategy=GenerationType.AUTO)
         private Long id;
-        private Long courseId;
         private Long lectureId;
-        private String courseStatus;
+        private Integer lectureStatus;
 
 
         public Long getId() {
@@ -22,13 +21,6 @@ public class CourseRegistrationStatus {
         public void setId(Long id) {
             this.id = id;
         }
-        public Long getCourseId() {
-            return courseId;
-        }
-
-        public void setCourseId(Long courseId) {
-            this.courseId = courseId;
-        }
         public Long getLectureId() {
             return lectureId;
         }
@@ -36,12 +28,12 @@ public class CourseRegistrationStatus {
         public void setLectureId(Long lectureId) {
             this.lectureId = lectureId;
         }
-        public String getCourseStatus() {
-            return courseStatus;
+        public Integer getLectureStatus() {
+            return lectureStatus;
         }
 
-        public void setCourseStatus(String courseStatus) {
-            this.courseStatus = courseStatus;
+        public void setLectureStatus(Integer lectureStatus) {
+            this.lectureStatus = lectureStatus;
         }
 
 }
