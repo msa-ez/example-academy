@@ -183,49 +183,61 @@
     - 호출관계에서 PubSub 과 Req/Resp 를 구분함
     - 서브 도메인과 바운디드 컨텍스트의 분리:  각 팀의 KPI 별로 아래와 같이 관심 구현 스토리를 나눠가짐
 
-★★★★=====================================편집중======================================
-
 
 # 구현:
 
-분석/설계 단계에서 도출된 헥사고날 아키텍처에 따라, 각 BC별로 대변되는 마이크로 서비스들을 스프링부트와 파이선으로 구현하였다. 구현한 각 서비스를 로컬에서 실행하는 방법은 아래와 같다 (각자의 포트넘버는 8081 ~ 808n 이다)
-
-* MSA-EZ 에서 기본 코드 생성하는 방법에 대해서는 https://youtu.be/ing_t9mPGxQ 를 참조한다.
+분석/설계 단계에서 도출된 헥사고날 아키텍처에 따라, 각 BC별로 대변되는 마이크로 서비스들을 스프링부트로 구현하였다. 구현한 각 서비스를 로컬에서 실행하는 방법은 아래와 같다 (각자의 포트넘버는 8081 ~ 808n 이다)
 
 ```
-cd app
+cd courseRegistrationSystem
 mvn spring-boot:run
 
-cd pay
+cd paymentSystem
 mvn spring-boot:run 
 
-cd store
+cd lectureSystem
 mvn spring-boot:run  
-
-cd customer
-python policy-handler.py 
 ```
 
 ## DDD 의 적용
 
-- 각 서비스내에 도출된 핵심 Aggregate Root 객체를 Entity 로 선언하였다: (예시는 pay 마이크로 서비스). 이때 가능한 현업에서 사용하는 언어 (유비쿼터스 랭귀지)를 그대로 사용하려고 노력했다. 하지만, 일부 구현에 있어서 영문이 아닌 경우는 실행이 불가능한 경우가 있기 때문에 계속 사용할 방법은 아닌것 같다. (Maven pom.xml, Kafka의 topic id, FeignClient 의 서비스 id 등은 한글로 식별자를 사용하는 경우 오류가 발생하는 것을 확인하였다)
+- 각 서비스내에 도출된 핵심 Aggregate Root 객체를 Entity 로 선언하였다: (예시는 paymentSystem 마이크로 서비스). 이때 가능한 현업에서 사용하는 언어 (유비쿼터스 랭귀지)를 그대로 사용하였다. 모델링 시에 영문화 완료하였기 때문에 그대로 개발하는데 큰 지장이 없었다.
 
 ```
-package fooddelivery;
+package skademy;
 
 import javax.persistence.*;
 import org.springframework.beans.BeanUtils;
 import java.util.List;
 
 @Entity
-@Table(name="결제이력_table")
-public class 결제이력 {
+@Table(name="PaymentSystem_table")
+public class PaymentSystem {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
-    private String orderId;
-    private Double 금액;
+    private Long courseId;
+
+    @PostPersist
+    public void onPostPersist(){
+        try {
+            Thread.currentThread().sleep((long) (400 + Math.random() * 220));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        PaymentCompleted paymentCompleted = new PaymentCompleted();
+        BeanUtils.copyProperties(this, paymentCompleted);
+        paymentCompleted.publish();
+    }
+
+    @PostRemove
+    public void onPostRemove(){
+        PaymentCanceled paymentCanceled = new PaymentCanceled();
+        BeanUtils.copyProperties(this, paymentCanceled);
+        paymentCanceled.publish();
+    }
 
     public Long getId() {
         return id;
@@ -234,85 +246,90 @@ public class 결제이력 {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getOrderId() {
-        return orderId;
+    public Long getCourseId() {
+        return courseId;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
-    public Double get금액() {
-        return 금액;
-    }
-
-    public void set금액(Double 금액) {
-        this.금액 = 금액;
-    }
-
 }
-
 ```
-- Entity Pattern 과 Repository Pattern 을 적용하여 JPA 를 통하여 다양한 데이터소스 유형 (RDB or NoSQL) 에 대한 별도의 처리가 없도록 데이터 접근 어댑터를 자동 생성하기 위하여 Spring Data REST 의 RestRepository 를 적용하였다
+- Entity Pattern 과 Repository Pattern 을 적용하여 JPA 를 통하여 다양한 데이터소스 유형 (RDB) 에 대한 별도의 처리가 없도록 데이터 접근 어댑터를 자동 생성하기 위하여 Spring Data REST 의 RestRepository 를 적용하였다
 ```
-package fooddelivery;
+package skademy;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface 결제이력Repository extends PagingAndSortingRepository<결제이력, Long>{
+public interface PaymentSystemRepository extends PagingAndSortingRepository<PaymentSystem, Long>{
 }
 ```
 - 적용 후 REST API 의 테스트
 ```
-# app 서비스의 주문처리
-http localhost:8081/orders item="통닭"
+# courseRegistrationSystem 서비스의 수강신청 처리
+http POST localhost:8081/courseRegistrationSystem lectureId=1
+```
+![image](https://user-images.githubusercontent.com/48303857/79857038-272bad00-8408-11ea-8096-7f54b482ea54.png)
 
-# store 서비스의 배달처리
-http localhost:8083/주문처리s orderId=1
-
-# 주문 상태 확인
-http localhost:8081/orders/1
 
 ```
+# 주문 상태 확인
+http localhost:8081/courseRegistrationSystem
+```
+![image](https://user-images.githubusercontent.com/48303857/79857153-4d514d00-8408-11ea-83be-cf9e002c9ce5.png)
 
 
 
 ## 동기식 호출 과 Fallback 처리
 
-분석단계에서의 조건 중 하나로 주문(app)->결제(pay) 간의 호출은 동기식 일관성을 유지하는 트랜잭션으로 처리하기로 하였다. 호출 프로토콜은 이미 앞서 Rest Repository 에 의해 노출되어있는 REST 서비스를 FeignClient 를 이용하여 호출하도록 한다. 
+분석단계에서의 조건 중 하나로 수강신청(courseRegistrationSystem)->결제(paymentSystem) 간의 호출은 동기식 일관성을 유지하는 트랜잭션으로 처리하기로 하였다. 호출 프로토콜은 이미 앞서 Rest Repository 에 의해 노출되어있는 REST 서비스를 FeignClient 를 이용하여 호출하도록 한다. 
 
 - 결제서비스를 호출하기 위하여 Stub과 (FeignClient) 를 이용하여 Service 대행 인터페이스 (Proxy) 를 구현 
 
 ```
-# (app) 결제이력Service.java
+# (courseRegistrationSystem) PaymentService.java
 
-package fooddelivery.external;
-
-@FeignClient(name="pay", url="http://localhost:8082")//, fallback = 결제이력ServiceFallback.class)
-public interface 결제이력Service {
-
-    @RequestMapping(method= RequestMethod.POST, path="/결제이력s")
-    public void 결제(@RequestBody 결제이력 pay);
+@FeignClient(name ="paymentSystems", url="http://52.231.118.204:8080")
+public interface PaymentService {
+    @RequestMapping(method = RequestMethod.POST, value = "/paymentSystems", consumes = "application/json")
+    void makePayment(PaymentSystem paymentSystem);
 
 }
 ```
 
-- 주문을 받은 직후(@PostPersist) 결제를 요청하도록 처리
+- 수강신청 직후(@PostPersist) 결제를 요청하도록 처리
 ```
-# Order.java (Entity)
+#CourseRegistrationSystem.java (Entity)
 
     @PostPersist
     public void onPostPersist(){
+        CourseRegistered courseRegistered = new CourseRegistered();
+        BeanUtils.copyProperties(this, courseRegistered);
+        courseRegistered.publish();
 
-        fooddelivery.external.결제이력 pay = new fooddelivery.external.결제이력();
-        pay.setOrderId(getOrderId());
-        
-        Application.applicationContext.getBean(fooddelivery.external.결제이력Service.class)
-                .결제(pay);
+        this.setLectureId(courseRegistered.getLectureId());
+        this.setStudentId(12334);
+        this.setStatus("수강신청중");
+
+        System.out.println("##### POST CourseRegistrationSystem 수강신청 : " + this);
+
+        //Following code causes dependency to external APIs
+        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+
+        PaymentSystem paymentSystem = new PaymentSystem();
+        paymentSystem.setCourseId(this.id);
+        // mappings goes here
+
+        //결제 시작
+        PaymentService paymentService = Application.applicationContext.getBean(PaymentService.class);
+        paymentService.makePayment(paymentSystem);
+
     }
 ```
 
 - 동기식 호출에서는 호출 시간에 따른 타임 커플링이 발생하며, 결제 시스템이 장애가 나면 주문도 못받는다는 것을 확인:
 
+★★★★=====================================편집중======================================
 
 ```
 # 결제 (pay) 서비스를 잠시 내려놓음 (ctrl+c)
@@ -320,7 +337,10 @@ public interface 결제이력Service {
 #주문처리
 http localhost:8081/orders item=통닭 storeId=1   #Fail
 http localhost:8081/orders item=피자 storeId=2   #Fail
+```
+![image](https://user-images.githubusercontent.com/48303857/79857341-9a352380-8408-11ea-908a-d776d192bb8e.png)
 
+```
 #결제서비스 재기동
 cd 결제
 mvn spring-boot:run
@@ -329,6 +349,8 @@ mvn spring-boot:run
 http localhost:8081/orders item=통닭 storeId=1   #Success
 http localhost:8081/orders item=피자 storeId=2   #Success
 ```
+![image](https://user-images.githubusercontent.com/48303857/79857434-c05ac380-8408-11ea-88d4-8a6ce4af0100.png)
+
 
 - 또한 과도한 요청시에 서비스 장애가 도미노 처럼 벌어질 수 있다. (서킷브레이커, 폴백 처리는 운영단계에서 설명한다.)
 
