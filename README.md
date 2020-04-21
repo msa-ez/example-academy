@@ -786,7 +786,7 @@ Concurrency:		       96.02
 
 ## 헥사고날 아키텍처 변화 
 
-![image](https://user-images.githubusercontent.com/487999/79685243-1d704100-8272-11ea-8ef6-f4869c509996.png)
+![image](https://user-images.githubusercontent.com/63028469/79847017-1d9b4880-83fa-11ea-90e7-b17a4a37a445.png)
 
 ## 구현  
 
